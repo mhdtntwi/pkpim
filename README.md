@@ -14,7 +14,7 @@ This guide provides step-by-step instructions for deploying a Laravel project to
 
 1. Clone the repository:
 ```bash
-  git clone <repository_url>
+  git clone https://github.com/mhdtntwi/pkpim.git
 ```
 2. Install project dependencies:
 ```bash
