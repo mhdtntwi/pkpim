@@ -52,7 +52,7 @@ class UserController extends Controller
     // applyProgram function
     public function applyProgram(Program $program)
     {
-        // $user = Auth::user();
+        $user = Auth::user();
         // $user->programs()->attach($program->id);
 
         $userLog = UserLog::create([
