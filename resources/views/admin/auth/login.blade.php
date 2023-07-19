@@ -10,14 +10,14 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email" :value="__('E-mel')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('Kata Laluan')" />
             <div class="relative">
                 <x-text-input id="password" class="block mt-1 w-full pr-10" type="password" name="password" required autocomplete="current-password" />
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
@@ -34,11 +34,11 @@
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('welcome.index') }}">
-                {{ __('Back') }}
+                {{ __('Kembali') }}
             </a>
 
             <x-primary-button class="ml-3">
-                {{ __('Log in') }}
+                {{ __('Log Masuk') }}
             </x-primary-button>
         </div>
     </form>

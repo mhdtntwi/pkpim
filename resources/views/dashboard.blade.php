@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Papan Pemuka') }}
         </h2>
     </x-slot>
 
@@ -16,7 +16,7 @@
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                         </svg>
                         <span class="sr-only">Info</span>
-                        <h3 class="text-lg font-medium">Please complete your profile information:</h3>
+                        <h3 class="text-lg font-medium">Sila Lengkapkan Informasi Profil Anda :</h3>
                     </div>
                     <div class="mt-2 mb-4 text-sm">
                         <div>
@@ -32,10 +32,10 @@
                         <svg class="-ml-0.5 mr-2 h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 14">
                             <path d="M10 0C4.612 0 0 5.336 0 7c0 1.742 3.546 7 10 7 6.454 0 10-5.258 10-7 0-1.664-4.612-7-10-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
                         </svg>
-                        View more
+                        Lihat
                         </button>
                         <button type="button"  class="text-blue-800 bg-transparent border border-blue-800 hover:bg-blue-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-xs px-3 py-1.5 text-center dark:hover:bg-blue-600 dark:border-blue-600 dark:text-blue-400 dark:hover:text-white dark:focus:ring-blue-800" data-dismiss-target="#alert-additional-content-1" aria-label="Close">
-                        Dismiss
+                        Abaikan
                         </button>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="mb-5">
                             <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300"></span>
-                            {{ __("Program Anda") }}
+                            {{ __("Senarai Program Anda") }}
                         </div>
 
                         <div id="accordion-collapse" data-accordion="collapse" class="space-y-2">
@@ -85,7 +85,7 @@
                                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                     <tr>
                                                         <th scope="col" class="px-6 py-3">
-                                                            Description
+                                                            Deskripsi program
                                                         </th>
                                                     </tr>
                                                 </thead>
@@ -187,7 +187,7 @@
 
                             @if($joinedPrograms->isEmpty())
                             <div class="flex items-center justify-center w-full p-5 font-medium text-left text-gray-500 border border-b-1 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800">
-                                <span>You don't have any programs.</span>
+                                <span>Anda tidak terdaftar didalam program yang tersedia</span>
                             </div>
                             @else
                                 @foreach($joinedPrograms as $program)
@@ -229,7 +229,7 @@
                                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                         <tr>
                                                             <th scope="col" class="px-6 py-3">
-                                                                Description
+                                                                Deskripsi program
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -334,7 +334,7 @@
                         <div id="accordion-nested-collapse" data-accordion="collapse" class="space-y-2">
                             @if($availablePrograms->isEmpty())
                                 <div class="flex items-center justify-center w-full p-5 font-medium text-left text-gray-500 border border-b-1 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800">
-                                    <span>No Available Program</span>
+                                    <span>Tiada program tersedia buat masa ini</span>
                                 </div>
                             @else
                                 @foreach($availablePrograms as $program)
@@ -372,7 +372,7 @@
                                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                         <tr>
                                                             <th scope="col" class="px-6 py-3">
-                                                                Description
+                                                            Deskripsi program
                                                             </th>
                                                         </tr>
                                                     </thead>

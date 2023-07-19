@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('program_id')->unsigned();
             $table->foreign('program_id')->references('id')->on('programs')->onDelete('cascade');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('phone');
             $table->timestamps();
         });

@@ -62,7 +62,7 @@
                     <input type="ic" name="ic" id="ic" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required>
                 </div>
                 <div class="mt-4">
-                    <x-input-label for="password" :value="__('Password')" />
+                    <x-input-label for="password" :value="__('Kata Laluan')" />
                     <div class="relative">
                         <x-text-input id="password" class="block mt-1 w-full pr-10" type="password" name="password" required />
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
@@ -78,7 +78,7 @@
                 </div>
                 <div class="flex items-center justify-between">
                     @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Lupa Password?</a>
+                        <a href="{{ route('password.request') }}" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Lupa Kata Laluan?</a>
                     @endif
                 </div>
                 <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Log masuk</button>
@@ -91,7 +91,7 @@
                 <button type="button" onclick="window.location.href='{{ route('welcome.register') }}'" class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Daftar Baharu?</button>
                 <div class="flex items-center justify-center">
                     <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                        Log Masuk Sebagai Admin? <a href="{{ route('admin.login') }}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Klik Sini</a>
+                        Log Masuk Sebagai Admin? <a href="{{ route('admin.login') }}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Klik Disini</a>
                     </p>
                 </div>
             </form>

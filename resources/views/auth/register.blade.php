@@ -1,88 +1,42 @@
 <x-guest-layout>
-    {{-- <form method="POST" action="{{ route('register') }}">
-        @csrf
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ml-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form> --}}
+    </style>
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Create an account
+                Cipta Akaun Baharu
             </h1>
             <form class="space-y-4 md:space-y-6" method="POST" action="{{ route('register.store') }}">
                 @csrf
                 <div>
-                    <x-input-label for="name" :value="__('Name')" />
+                    <x-input-label for="name" :value="__('Nama Penuh')" />
                     <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
                 <div class="mt-4">
-                    <x-input-label for="email" :value="__('Email')" />
+                    <x-input-label for="email" :value="__('E-mel')" />
                     <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
                 <div>
-                    <x-input-label for="ic" :value="__('No. Kad Pengenalan')" />
-                    <x-text-input id="ic" class="block mt-1 w-full" type="text" name="ic" :value="old('ic')" required autofocus autocomplete="ic" />
+                        <x-input-label for="ic" :value="__('No. Kad Pengenalan')" />
+                        <x-text-input id="ic" class="block mt-1 w-full" type="text" name="ic" :value="old('ic')" required autofocus autocomplete="ic" />
+                        <p id="helper-text-explanation" class="mt-2 text-sm text-red-500 dark:text-gray-400">Tanpa menggunakan (-).</p>
                     <x-input-error :messages="$errors->get('ic')" class="mt-2" />
                 </div>
                 <div>
                     <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jantina</label>
                     <select id="gender" name="gender" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <option value="">--Pilih Jantina--</option>    
                         <option value="male">Lelaki</option>
                         <option value="female">Perempuan</option>
                     </select>
                 </div>
                 <div>
-                    <label for="state" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
+                    <label for="state" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Negeri</label>
                     <select id="state" name="state" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                        <option value="">Select State</option>
+                        <option value="">--Pilih Negeri--</option>
                         @foreach ($states as $state)
                             <option value="{{ $state->name }}">{{ $state->name }}</option>
                         @endforeach
@@ -90,7 +44,7 @@
                     <x-input-error :messages="$errors->get('state')" class="mt-2" />
                 </div>
                 <div class="mt-4">
-                    <x-input-label for="password" :value="__('Password')" />
+                    <x-input-label for="password" :value="__('Kata Laluan')" />
 
                     <div class="relative">
                         <x-text-input id="password" class="block mt-1 w-full pr-10"
@@ -111,11 +65,11 @@
                 </div>
                 <div class="flex items-center justify-end mt-4">
                     <x-primary-button class="ml-4">
-                        {{ __('Register') }}
+                        {{ __('Daftar') }}
                     </x-primary-button>
                 </div>
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Already have an account? <a href="{{ route('welcome.index') }}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
+                Anda mempunyai akaun? <a href="{{ route('welcome.index') }}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Log Masuk</a>
                 </p>
             </form>
         </div>

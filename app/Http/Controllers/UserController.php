@@ -45,7 +45,7 @@ class UserController extends Controller
             // Format the submitted value using Carbon
         $submitted = Carbon::parse($userLog->submitted)->format('Y-m-d h:i:s A');
 
-        return redirect()->route('dashboard')->with('status', 'Attendance submitted successfully. Submitted at: ' . $submitted);
+        return redirect()->route('dashboard')->with('status', 'Borang kehadiran berjaya didaftarkan pada : ' . $submitted);
         }
     }
 
@@ -63,6 +63,6 @@ class UserController extends Controller
 
         $userLog->update(['joined' => now()]); // Set the joined date to the current date and time
 
-        return redirect()->back()->with('status', 'Applied for the program successfully.');
+        return redirect()->back()->with('status', 'Program Berjaya Didaftarkan');
     }
 }

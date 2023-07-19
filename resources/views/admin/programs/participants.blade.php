@@ -17,7 +17,7 @@
                                     <svg class="w-4 h-4 mr-2 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
                                       </svg>
-                                      {{ $participantCountUser + $guestCountUser }}/{{ $totalParticipantCount }}
+                                      {{ $participantCountUser }}/{{ $totalParticipantCount }}
                                 </div>
                                 <form action="{{ route('program.form', $program->slug) }}" method="POST">
                                     @csrf

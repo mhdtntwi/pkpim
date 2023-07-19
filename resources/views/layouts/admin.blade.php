@@ -57,7 +57,7 @@
 
                                 <x-slot name="content">
                                     <x-dropdown-link :href="route('admin.profile.edit')">
-                                        {{ __('Profile') }}
+                                        {{ __('Profil') }}
                                     </x-dropdown-link>
                                     <x-dropdown-link :href="route('admin.new-admin')">
                                         {{ __('Admin') }}
@@ -70,7 +70,7 @@
                                         <x-dropdown-link :href="route('admin.logout')"
                                                 onclick="event.preventDefault();
                                                             this.closest('form').submit();">
-                                            {{ __('Log Out') }}
+                                            {{ __('Log Keluar') }}
                                         </x-dropdown-link>
                                     </form>
                                 </x-slot>

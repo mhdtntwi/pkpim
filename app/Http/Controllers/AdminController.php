@@ -28,7 +28,7 @@ class AdminController extends Controller
         if(Auth::guard('admin')->attempt([
             'email' => $check['email'],
             'password' => $check['password']])){
-            return redirect()->route('programs.index')->with('status', 'Admin Login Successfully');
+            return redirect()->route('programs.index')->with('status', 'Admin berjaya dilog masuk');
         }else{
             return back()->with('status', 'Invalid Email or Password');
         }
@@ -37,7 +37,7 @@ class AdminController extends Controller
 
     public function AdminLogout(){
         Auth::guard('admin')->logout();
-        return redirect()->route('admin.login')->with('status', 'Admin Logout Successfully');
+        return redirect()->route('admin.login')->with('status', 'Admin telah dilog keluar');
     }
 
     /**
@@ -64,7 +64,7 @@ class AdminController extends Controller
 
         $admin->save();
 
-        return redirect()->route('admin.profile.edit')->with('status', 'Profile updated successfully');
+        return redirect()->route('admin.profile.edit')->with('status', 'Profil Admin Berjaya Dikemaskini');
     }
 
     public function updatePassword(Request $request): RedirectResponse
@@ -79,7 +79,7 @@ class AdminController extends Controller
         // Verify the current password
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors([
-                'current_password' => 'The current password is incorrect.',
+                'current_password' => 'Kata Laluan Salah, Sila Masukkan Semula',
             ]);
         }
 
@@ -87,7 +87,7 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return back()->with('status', 'Profile updated successfully');
+        return back()->with('status', 'Profil Admin Berjaya Dikemaskini');
 }
 
     /**
@@ -127,7 +127,7 @@ class AdminController extends Controller
         // For example, you can log in as the selected admin
         Auth::guard('admin')->login($admin);
 
-        return redirect()->back()->with('status', 'Substituted as ' . $admin->name);
+        return redirect()->back()->with('status', 'Dilog Masukkan Sebagai Admin : ' . $admin->name);
     }
 
     public function storeAdmin(Request $request){
@@ -145,7 +145,7 @@ class AdminController extends Controller
 
         event(new Registered($admin));
 
-        return redirect()->back()->with('status', 'Admin Successfully Created');
+        return redirect()->back()->with('status', 'Admin Baharu Berjaya Ditambahkan');
     }
 
 }

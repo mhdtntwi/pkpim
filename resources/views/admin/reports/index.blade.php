@@ -33,7 +33,7 @@
                                             <canvas id="chart-peserta-{{ $programId }}"></canvas>
                                         @else
                                             <div class="flex items-center justify-center h-full">
-                                                <span class="text-gray-500">No Data</span>
+                                                <span class="text-gray-500">Tiada Maklumat</span>
                                             </div>
                                         @endif
                                     </div>
@@ -49,7 +49,7 @@
                                             <canvas id="chart-gender-{{ $programId }}"></canvas>
                                         @else
                                             <div class="flex items-center justify-center h-full">
-                                                <span class="text-gray-500">No Data</span>
+                                                <span class="text-gray-500">Tiada Maklumat</span>
                                             </div>
                                         @endif
                                     </div>
@@ -65,7 +65,7 @@
                                             <canvas id="chart-attendance-{{ $programId }}"></canvas>
                                         @else
                                             <div class="flex items-center justify-center h-full">
-                                                <span class="text-gray-500">No Data</span>
+                                                <span class="text-gray-500">Tiada Maklumat</span>
                                             </div>
                                         @endif
                                     </div>
@@ -85,7 +85,7 @@
                                             <div class="flex items-center justify-center h-full">
                                                 <div class="relative">
                                                     <canvas id="chart-states-{{ $programId }}-no-data" class="chart-no-data"></canvas>
-                                                    <span class="text-gray-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">No Data</span>
+                                                    <span class="text-gray-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">Tiada Maklumat</span>
                                                 </div>
                                             </div>
                                         @endif

@@ -17,7 +17,7 @@ class ProgramController extends Controller
         $program->status = $program->status === 1 ? 0 : 1;
         $program->save();
 
-        return redirect()->back()->with('status', 'Program status updated successfully.');
+        return redirect()->back()->with('status', 'Program berjaya dikemaskini');
     }
     public function index(Request $request)
     {
@@ -66,7 +66,7 @@ class ProgramController extends Controller
         $program->save();
 
         // Redirect to the index page with a success message
-        return redirect()->route('programs.index')->with('status', 'Program created successfully.');
+        return redirect()->route('programs.index')->with('status', 'Program berjaya ditambah');
     }
 
     public function edit(Program $program)
@@ -93,7 +93,7 @@ class ProgramController extends Controller
         $program->save();
 
         // Redirect to the index page with a success message
-        return redirect()->route('programs.index')->with('status', 'Program updated successfully.');
+        return redirect()->route('programs.index')->with('status', 'Program berjaya dikemaskini');
     }
 
     public function destroy(Program $program)
@@ -102,7 +102,7 @@ class ProgramController extends Controller
         $program->delete();
 
         // Redirect to the index page with a success message
-        return redirect()->route('programs.index')->with('status', 'Program deleted successfully.');
+        return redirect()->route('programs.index')->with('status', 'Program dipadamkan');
     }
 
     public function showParticipants(Request $request, Program $program)
@@ -180,6 +180,6 @@ class ProgramController extends Controller
         $program->form = $program->form == 0 ? 1 : 0;
         $program->save();
 
-        return redirect()->back()->with('status', 'Program form updated successfully.');
+        return redirect()->back()->with('status', 'Borang Kehadiran Berjaya Dikemaskini');
     }
 }

@@ -16,6 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Validation\ValidationException;
 
 class WelcomeController extends Controller
 {
@@ -85,10 +86,20 @@ class WelcomeController extends Controller
         $request->validate([
             'program_id' => ['required', 'exists:' . Program::class . ',id'],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . Guest::class],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:15'],
         ]);
 
+        // Check if a guest with the same email already registered for the specified program
+        $existingGuest = Guest::where('email', $request->email)
+                            ->where('program_id', $request->program_id)
+                            ->first();
+
+        if ($existingGuest) {
+            return redirect()->back()->with('status', 'Pengguna dengan E-mel ini sudah berdaftar');
+        }
+
+        // Create a new guest entry
         $guest = new Guest;
         $guest->program_id = $request->program_id;
         $guest->name = $request->name;
@@ -100,9 +111,8 @@ class WelcomeController extends Controller
         // Assign values for other guest fields
         $guest->save();
 
-        return redirect()->back()->with('status', 'Program Registered!');
+        return redirect()->back()->with('status', 'Program Berjaya Didaftarkan');
     }
-
 
     /**
      * Destroy an authenticated session.
@@ -118,42 +128,3 @@ class WelcomeController extends Controller
         return redirect('/');
     }
 }
-// {
-//     public function index()
-//     {
-//         return view('welcome', compact('activePrograms'));
-//     }
-
-
-
-//     // public function storeUser(Request $request, $check): RedirectResponse
-//     // {
-//     //     $request->validate([
-//     //         'name' => ['required', 'string', 'max:255'],
-//     //         'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-//     //         'password' => ['required', 'confirmed', Rules\Password::defaults()],
-//     //         'ic' => ['required', 'string', 'max:12', 'unique:' . User::class],
-//     //         'phone' => ['required', 'string', 'max:15'],
-//     //         'organization' => ['required', 'string', 'max:255'],
-//     //         'address' => ['required', 'string'],
-//     //         'notes' => ['nullable', 'string'],
-//     //     ]);
-
-//     //     $user = User::create([
-//     //         'name' => $request->name,
-//     //         'email' => $request->email,
-//     //         'password' => Hash::make($request->password),
-//     //         'ic' => $check,
-//     //         'phone' => $request->phone,
-//     //         'organization' => $request->organization,
-//     //         'address' => $request->address,
-//     //         'notes' => $request->notes,
-//     //     ]);
-
-//     //     event(new Registered($user));
-
-//     //     Auth::login($user);
-
-//     //     return redirect(RouteServiceProvider::HOME)->with('status', 'Account created successfully.');
-//     // }
-// }
