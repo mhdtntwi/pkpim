@@ -18,7 +18,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
             <div>
                 <a href="/">
-                    <img src="{{ Vite::asset('resources/images/logo.png') }}" style="width:150px;height:170px;" alt="">
+                    <img src="{{ asset('assets/logo/logo.png') }}" style="width:150px;height:170px;" alt="">
                 </a>
             </div>
 
