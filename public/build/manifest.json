@@ -4,6 +4,11 @@
     "isEntry": true,
     "src": "resources/css/app.css"
   },
+  "resources/images/logo.png": {
+    "file": "assets/logo-4ed993c7.js",
+    "isEntry": true,
+    "src": "resources/images/logo.png"
+  },
   "resources/js/app.js": {
     "file": "assets/app-55931b8c.js",
     "isEntry": true,
