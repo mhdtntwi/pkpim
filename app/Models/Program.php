@@ -28,9 +28,11 @@ class Program extends Model
         return 'slug';
     }
 
-    public function users(): BelongsToMany
+    public function users()
     {
-        return $this->belongsToMany(User::class, 'user_logs');
+        return $this->belongsToMany(User::class, 'user_logs')
+            ->withPivot('attendance', 'submitted', 'joined')
+            ->withTimestamps();
     }
 
     public function guests(): HasMany

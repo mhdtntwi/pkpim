@@ -141,8 +141,12 @@ class ProgramController extends Controller
         $participantCountUser = $participants->where('pivot.attendance', 1)->count();
         // dd($participants);
         $guestCountUser = $guests->count();
+        $attendanceUser = $participants->filter(function ($participant) {
+            return $participant->pivot->attendance === 1;
+        });
+        // dd($attendanceUser);
 
-        return view('admin.programs.participants', compact('program', 'participants', 'guests', 'totalParticipantCount', 'participantCountUser', 'guestCountUser', 'search'));
+        return view('admin.programs.participants', compact('program', 'attendanceUser' ,'participants', 'guests', 'totalParticipantCount', 'participantCountUser', 'guestCountUser', 'search'));
     }
 
     public function exportPDF(Program $program)
