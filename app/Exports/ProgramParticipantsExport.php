@@ -11,15 +11,18 @@ class ProgramParticipantsExport implements FromView, ShouldAutoSize
 {
     protected $program;
     protected $participantCount;
+    protected $guests;
 
-    public function __construct(Program $program, $participantCount)
+    public function __construct(Program $program, $participantCount, $guests)
     {
         $this->program = $program;
         $this->participantCount = $participantCount;
+        $this->guests = $guests;
     }
 
     public function view(): View
     {
+        $guests = $this->program->guests;
         $participants = $this->program->users;
         $participantCount = $this->program->users()->wherePivot('attendance', 1)->get();
 
@@ -31,7 +34,8 @@ class ProgramParticipantsExport implements FromView, ShouldAutoSize
             'participants' => $participants,
             'participantCount' => $participantCount,
             'totalParticipantsCount' => $totalParticipantsCount,
-            'submittedParticipantsCount' => $submittedParticipantsCount
+            'submittedParticipantsCount' => $submittedParticipantsCount,
+            'guests' => $guests
         ]);
     }
 }

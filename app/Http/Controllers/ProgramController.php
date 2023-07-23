@@ -239,18 +239,22 @@ class ProgramController extends Controller
     public function exportPDF(Program $program)
     {
         $participants = $program->users;
+        $guests = $program->guests;
         $participantCount = $program->users()->wherePivot('attendance', 1)->get();
         $participantCountUser = $participantCount->count();
 
 
         $data = [
             'program' => $program,
+            'guests' => $guests,
             'participants' => $participants,
             'participantCount' => $participantCount,
             'participantCountUser' => $participantCountUser
         ];
 
         $pdf = PDF::loadView('admin.programs.pdf', $data);
+        // Set the paper to landscape orientation
+        $pdf->setPaper('landscape');
 
         return $pdf->download($program->slug.'.pdf');
         // return View::make('admin.programs.pdf', $data);
@@ -258,10 +262,21 @@ class ProgramController extends Controller
 
     public function exportExcel(Program $program)
     {
-        $participantCount = $program->users()->wherePivot('attendance', 1)->get();
-        $participantCountUser = $participantCount->count();
+        // Participants who attended (submitted)
+        $participantsSubmitted = $program->users()
+            ->whereHas('userLogs', function ($query) use ($program) {
+                $query->where('program_id', $program->id)->whereNotNull('submitted');
+            })
+            ->get();
 
-        $export = new ProgramParticipantsExport($program, $participantCount);
+        // Guests
+        $guests = $program->guests()->get();
+
+        // Combine participants and guests into one collection
+        $allParticipants = $participantsSubmitted->concat($guests);
+
+        // Pass the combined data to the export class along with $guests
+        $export = new ProgramParticipantsExport($program, $allParticipants, $guests);
 
         return Excel::download($export, 'program_'.$program->slug.'.xlsx');
     }

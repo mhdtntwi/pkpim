@@ -1,9 +1,10 @@
-<p>Informasi Program</p>
+<p>Program Information</p>
 <table>
     <thead>
         <tr>
             <th>Program Name</th>
             <th>Location</th>
+            <th>Descripttion</th>
             <th>Date</th>
         </tr>
     </thead>
@@ -11,6 +12,7 @@
         <tr>
             <td>{{ $program->name }}</td>
             <td>{{ $program->location }}</td>
+            <td>{{ $program->description }}</td>
             <td>{{ $program->date }}</td>
         </tr>
     </tbody>
@@ -18,8 +20,33 @@
 
 <br>
 
+@if ($guests->count() > 0)
+    <p>Guests ({{ $guests->count() }})</p>
+    <table>
+        <!-- Table header and body for guests -->
+        <thead>
+            <tr>
+                <th>Guest Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <!-- Add other guest fields as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($guests as $guest)
+                <tr>
+                    <td>{{ $guest->name }}</td>
+                    <td>{{ $guest->email }}</td>
+                    <td>{{ $guest->phone }}</td>
+                    <!-- Add other guest fields as needed -->
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
+
 @if ($participants->count() > 0)
-    <p>Semua Peserta ({{ $totalParticipantsCount }})</p>
+    <p>Semua Peserta ({{ $participants->count() }})</p>
     <table>
         <thead>
             <tr>
@@ -52,8 +79,10 @@
     <p>No participants found for this program.</p>
 @endif
 
+
+
 @if ($participantCount->count() > 0)
-    <p>Peserta Hadir ({{ $submittedParticipantsCount }})</p>
+    <p>Peserta Hadir ({{ $participantCount->count() }})</p>
     <table>
         <thead>
             <tr>
