@@ -105,48 +105,135 @@ class ProgramController extends Controller
         return redirect()->route('programs.index')->with('status', 'Program dipadamkan');
     }
 
+    // public function showParticipants(Request $request, Program $program)
+    // {
+    //     $search = $request->input('search');
+
+    //     $participants = $program->users()->with(['userLogs' => function ($query) use ($program) {
+    //         $query->where('program_id', $program->id);
+    //         }])
+    //         ->when($search, function ($query) use ($search) {
+    //             $query->where(function ($q) use ($search) {
+    //                 $q->where('name', 'like', '%' . $search . '%')
+    //                     ->orWhere('email', 'like', '%' . $search . '%')
+    //                     ->orWhere('ic', 'like', '%' . $search . '%')
+    //                     ->orWhere('phone', 'like', '%' . $search . '%')
+    //                     ->orWhere('address', 'like', '%' . $search . '%')
+    //                     ->orWhere('notes', 'like', '%' . $search . '%')
+    //                     ->orWhere('organization', 'like', '%' . $search . '%');
+    //             });
+    //         })
+    //         ->get();
+
+    //     $guests = $program->guests()
+    //         ->when($search, function ($query) use ($search) {
+    //             $query->where(function ($q) use ($search) {
+    //                 $q->where('name', 'like', '%' . $search . '%')
+    //                     ->orWhere('email', 'like', '%' . $search . '%')
+    //                     ->orWhere('phone', 'like', '%' . $search . '%');
+    //             });
+    //         })
+    //         ->get();
+
+    //     $totalParticipantCount = $participants->count() + $guests->count(); // kira total participant
+    //     $guest = $guests->count();
+    //     $member = $participants->count();
+    //     $participantCountUser = $participants->where('pivot.attendance', 1)->count(); // kira total attendance participant
+    //     $attendanceUser = $participants->filter(function ($participant) {
+    //         return $participant->pivot->attendance === 1;
+    //     });
+
+    //     // dd($attendanceUser);
+
+    //     return view('admin.programs.participants', compact(
+    //         'program',
+    //         'attendanceUser',
+    //         'participants',
+    //         'guests',
+    //         'totalParticipantCount',
+    //         'participantCountUser',
+    //         'search',
+    //         'guest',
+    //         'member'
+    //     ));
+    // }
+
     public function showParticipants(Request $request, Program $program)
     {
         $search = $request->input('search');
 
-        $usersQuery = $program->users()->with('userLogs');
-        $guestsQuery = $program->guests();
+        // Participants who submitted (Tab 1)
+        $participantsSubmitted = $program->users()
+            ->whereHas('userLogs', function ($query) use ($program) {
+                $query->where('program_id', $program->id)->whereNotNull('submitted');
+            })
+            ->when($search, function ($query) use ($search) {
+                // ... Your existing search query for submitted participants table ...
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%')
+                        ->orWhere('ic', 'like', '%' . $search . '%')
+                        ->orWhere('phone', 'like', '%' . $search . '%')
+                        ->orWhere('address', 'like', '%' . $search . '%')
+                        ->orWhere('notes', 'like', '%' . $search . '%')
+                        ->orWhere('organization', 'like', '%' . $search . '%');
+                });
+            })
+            ->paginate(10);
 
-        if ($search) {
-            $usersQuery->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'like', '%' . $search . '%')
-                    ->orWhere('ic', 'like', '%' . $search . '%')
-                    ->orWhere('phone', 'like', '%' . $search . '%')
-                    ->orWhere('address', 'like', '%' . $search . '%')
-                    ->orWhere('notes', 'like', '%' . $search . '%')
-                    ->orWhere('organization', 'like', '%' . $search . '%');
-            });
+        // All participants (Tab 2)
+        $participantsAll = $program->users()
+            ->with(['userLogs' => function ($query) use ($program) {
+                $query->where('program_id', $program->id);
+            }])
+            ->when($search, function ($query) use ($search) {
+                // ... Your existing search query for all participants table ...
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%')
+                        ->orWhere('ic', 'like', '%' . $search . '%')
+                        ->orWhere('phone', 'like', '%' . $search . '%')
+                        ->orWhere('address', 'like', '%' . $search . '%')
+                        ->orWhere('notes', 'like', '%' . $search . '%')
+                        ->orWhere('organization', 'like', '%' . $search . '%');
+                });
+            })
+            ->paginate(10);
 
-            $guestsQuery->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'like', '%' . $search . '%')
-                    ->orWhere('phone', 'like', '%' . $search . '%');
-            });
-        }
+        // Guests (Tab 3)
+        $guests = $program->guests()
+            ->when($search, function ($query) use ($search) {
+                // ... Your existing search query for guests table ...
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%')
+                        ->orWhere('phone', 'like', '%' . $search . '%');
+                });
+            })
+            ->paginate(10);
 
-        $participants = $usersQuery->join('user_logs as ul', 'users.id', '=', 'ul.user_id')
-        ->select('users.*', 'ul.submitted', 'ul.joined')
-        ->get();
-        $guests = $guestsQuery->get();
+        // Count of Participants who submitted
+        $participantCountSubmitted = $participantsSubmitted->total();
+        // Count of Guests
+        $guestCount = $guests->total();
+        // Count of All Participants
+        $participantCountAll = $participantsAll->total();
+        // Count of All Participants + Guest
+        $TotalParticipants = $participantCountAll + $guestCount;
+        // dd($TotalParticipants);
 
-        $totalParticipantCount = $participants->count() + $guests->count();
-        // dd($totalParticipantCount);
-
-        $participantCountUser = $participants->where('pivot.attendance', 1)->count();
-        // dd($participants);
-        $guestCountUser = $guests->count();
-        $attendanceUser = $participants->filter(function ($participant) {
-            return $participant->pivot->attendance === 1;
-        });
-        // dd($attendanceUser);
-
-        return view('admin.programs.participants', compact('program', 'attendanceUser' ,'participants', 'guests', 'totalParticipantCount', 'participantCountUser', 'guestCountUser', 'search'));
+        // Pass the paginated data to the view
+        return view('admin.programs.participants', compact(
+            'program',
+            'participantsSubmitted',
+            'participantsAll',
+            'guests',
+            'participantCountSubmitted',
+            'participantCountAll',
+            'guestCount',
+            'TotalParticipants',
+            'search'
+        ));
     }
 
     public function exportPDF(Program $program)

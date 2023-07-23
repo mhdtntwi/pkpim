@@ -13,11 +13,18 @@
                     <div class="overflow-x-auto">
                         <div class="flex items-center justify-between pb-4 p-2">
                             <div class="flex space-x-2">
+                                <a href="{{ route('programs.index') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+                                  </svg>
+                                  <span class="sr-only">Icon description</span>
+                                </a>
+
                                 <div class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                     <svg class="w-4 h-4 mr-2 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
                                       </svg>
-                                      {{ $participantCountUser }}/{{ $totalParticipantCount }}
+                                      {{ $participantCountSubmitted }}/{{ $TotalParticipants }}
                                 </div>
                                 <form action="{{ route('program.form', $program->slug) }}" method="POST">
                                     @csrf
@@ -79,27 +86,30 @@
                         <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
                             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                                 <li class="mr-2" role="presentation">
-                                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="hadir-tab" data-tabs-target="#hadir" type="button" role="tab" aria-controls="hadir" aria-selected="false">Senarai Hadir</button>
+                                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="hadir-tab" data-tabs-target="#hadir" type="button" role="tab" aria-controls="hadir" aria-selected="false">
+                                        Senarai Hadir
+                                    </button>
                                 </li>
                                 <li class="mr-2" role="presentation">
-                                    <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="peserta-tab" data-tabs-target="#peserta" type="button" role="tab" aria-controls="peserta" aria-selected="false">Senarai Peserta</button>
+                                    <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="peserta-tab" data-tabs-target="#peserta" type="button" role="tab" aria-controls="peserta" aria-selected="false">
+                                        Senarai Peserta ( {{ $participantCountAll }} )
+                                    </button>
                                 </li>
                                 <li class="mr-2" role="presentation">
-                                    <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="guest-tab" data-tabs-target="#guest" type="button" role="tab" aria-controls="guest" aria-selected="false">Senarai Tetamu</button>
+                                    <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="guest-tab" data-tabs-target="#guest" type="button" role="tab" aria-controls="guest" aria-selected="false">
+                                        Senarai Tetamu ( {{ $guestCount }} )
+                                    </button>
                                 </li>
                             </ul>
                         </div>
                         <div id="myTabContent">
                             <div class="hidden p-2 rounded-lg bg-gray-50 dark:bg-gray-800" id="hadir" role="tabpanel" aria-labelledby="hadir-tab">
-                                @if ($attendanceUser->count() > 0)
-                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                @if ($participantsSubmitted->count() > 0)
+                                    <table class="mb-5 w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3">
                                                     Nama
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Email
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
                                                     No. Kad Pengenalan
@@ -114,22 +124,19 @@
                                                     Address
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
-                                                    Notes
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
                                                     Submitted Date
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($attendanceUser as $participant)
+                                            @foreach ($participantsSubmitted as $participant)
                                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                    <th scope="row" class="px-6 py-4">
-                                                        {{ $participant->name }}
+                                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                                        <div>
+                                                            <div class="text-normal font-semibold">{{ $participant->name }}</div>
+                                                            <div class="font-normal text-gray-500">{{ $participant->email }}</div>
+                                                        </div>
                                                     </th>
-                                                    <td class="px-6 py-4">
-                                                        {{ $participant->email }}
-                                                    </td>
                                                     <td class="px-6 py-4">
                                                         {{ $participant->ic }}
                                                     </td>
@@ -143,15 +150,13 @@
                                                         {{ $participant->address }}
                                                     </td>
                                                     <td class="px-6 py-4">
-                                                        {{ $participant->notes }}
-                                                    </td>
-                                                    <td class="px-6 py-4">
-                                                        {{ $participant->submitted ? \Carbon\Carbon::parse($participant->submitted)->format('Y-m-d h:i:s A') : '' }}
+                                                        {{ $participant->pivot->submitted ? \Carbon\Carbon::parse($participant->pivot->submitted)->format('Y-m-d h:i:s A') : '' }}
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    {{ $participantsSubmitted->links() }}
                                 @else
                                 <div class="flex items-center justify-center w-full p-5 font-medium text-left text-gray-500 border border-b-1 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800">
                                     <span>No Participant Found.</span>
@@ -159,15 +164,12 @@
                                 @endif
                             </div>
                             <div class="hidden p-2 rounded-lg bg-gray-50 dark:bg-gray-800" id="peserta" role="tabpanel" aria-labelledby="peserta-tab">
-                                @if ($participants->count() > 0)
-                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                @if ($participantsAll->count() > 0)
+                                    <table class="mb-5 w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3">
                                                     Nama
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Email
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
                                                     No. Kad Pengenalan
@@ -182,22 +184,19 @@
                                                     Address
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
-                                                    Notes
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
                                                     Joined Date
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($participants as $participant)
+                                            @foreach ($participantsAll as $participant)
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                <th scope="row" class="px-6 py-4">
-                                                    {{ $participant->name }}
+                                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <div>
+                                                        <div class="text-normal font-semibold">{{ $participant->name }}</div>
+                                                        <div class="font-normal text-gray-500">{{ $participant->email }}</div>
+                                                    </div>
                                                 </th>
-                                                <td class="px-6 py-4">
-                                                    {{ $participant->email }}
-                                                </td>
                                                 <td class="px-6 py-4">
                                                     {{ $participant->ic }}
                                                 </td>
@@ -211,15 +210,13 @@
                                                     {{ $participant->address }}
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    {{ $participant->notes }}
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    {{ $participant->joined ? \Carbon\Carbon::parse($participant->joined)->format('Y-m-d h:i:s A') : '' }}
+                                                     {{ $participant->pivot->joined ? \Carbon\Carbon::parse($participant->pivot->joined)->format('Y-m-d h:i:s A') : '' }}
                                                 </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    {{ $participantsAll->links() }}
                                 @else
                                 <div class="flex items-center justify-center w-full p-5 font-medium text-left text-gray-500 border border-b-1 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800">
                                     <span>No Participant Found.</span>
@@ -228,14 +225,11 @@
                             </div>
                             <div class="hidden p-2 rounded-lg bg-gray-50 dark:bg-gray-800" id="guest" role="tabpanel" aria-labelledby="guest-tab">
                                 @if ($guests->count() > 0)
-                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <table class="mb-5 w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3">
                                                     Nama
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Email
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
                                                     Phone
@@ -248,12 +242,12 @@
                                         <tbody>
                                             @foreach ($guests as $guest)
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                <th scope="row" class="px-6 py-4">
-                                                    {{ $guest->name }}
+                                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <div>
+                                                        <div class="text-normal font-semibold">{{ $guest->name }}</div>
+                                                        <div class="font-normal text-gray-500">{{ $guest->email }}</div>
+                                                    </div>
                                                 </th>
-                                                <td class="px-6 py-4">
-                                                    {{ $guest->email }}
-                                                </td>
                                                 <td class="px-6 py-4">
                                                     {{ $guest->phone }}
                                                 </td>
@@ -264,6 +258,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    {{ $guests->links() }}
                                 @else
                                 <div class="flex items-center justify-center w-full p-5 font-medium text-left text-gray-500 border border-b-1 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800">
                                     <span>No Guests Found.</span>
@@ -277,3 +272,4 @@
         </div>
     </div>
 </x-admin-layout>
+
