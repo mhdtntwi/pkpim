@@ -118,7 +118,9 @@ class AdminController extends Controller
         return view('admin.newAdmin.index', compact('admin'));
     }
 
-    public function listuser() {
+    public function listuser(Request $request) {
+        $searchQuery = $request->input('search');
+
         // Get users and guests separately
         $users = User::all()->map(function ($user) {
             return [
@@ -138,6 +140,16 @@ class AdminController extends Controller
 
         // Combine users and guests
         $combinedData = $users->concat($guests);
+
+        // Filter the combined data based on the search query
+        if (!empty($searchQuery)) {
+            $combinedData = $combinedData->filter(function ($item) use ($searchQuery) {
+                return strpos(strtolower($item['name']), strtolower($searchQuery)) !== false
+                    || strpos(strtolower($item['email']), strtolower($searchQuery)) !== false
+                    || strpos(strtolower($item['category']), strtolower($searchQuery)) !== false;
+            });
+        }
+
 
         return view('users.list', compact('combinedData'));
     }
