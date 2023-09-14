@@ -72,6 +72,8 @@ Route::prefix('admin')->group(function (){
                 ->name('admin.password.update');
         Route::get('/admin-list', [AdminController::class, 'newAdmin'])
                 ->name('admin.new-admin');
+        Route::get('/users-list', [AdminController::class, 'listuser'])
+                ->name('admin.users-list');
         Route::post('/admin-add/store', [AdminController::class, 'storeAdmin'])
                 ->name('admin.storeAdmin');
         Route::post('/substitute/{admin}', [AdminController::class, 'substitute'])

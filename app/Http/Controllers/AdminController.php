@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Admin;
+use App\Models\Guest;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rules;
-use App\Http\Requests\AdminProfileUpdateRequest;
-use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rules\Password;
+use App\Http\Requests\AdminProfileUpdateRequest;
 
 class AdminController extends Controller
 {
-    
+
     public function index(){
         return view('admin.auth.login');
     }
@@ -115,6 +117,31 @@ class AdminController extends Controller
         $admin = Admin::all();
         return view('admin.newAdmin.index', compact('admin'));
     }
+
+    public function listuser() {
+        // Get users and guests separately
+        $users = User::all()->map(function ($user) {
+            return [
+                'name' => $user->name,
+                'email' => $user->email,
+                'category' => 'Members',
+            ];
+        });
+
+        $guests = Guest::all()->map(function ($guest) {
+            return [
+                'name' => $guest->name,
+                'email' => $guest->email,
+                'category' => 'Guest',
+            ];
+        });
+
+        // Combine users and guests
+        $combinedData = $users->concat($guests);
+
+        return view('users.list', compact('combinedData'));
+    }
+
 
     public function substitute(Request $request, Admin $admin)
     {
